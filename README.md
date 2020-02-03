@@ -24,7 +24,8 @@ Start mongoDB:
 sudo mongod
 ```
 
-### Frontend dependencies
+## Frontend
+### Change directory into the frontend
 ```bash
 cd blog-frontend
 npm install
