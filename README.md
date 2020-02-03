@@ -31,12 +31,12 @@ npm start
 ```
 
 ## Prerequisites
- [Node.js](https://nodejs.org/en/), [Yarn package manager](https://yarnpkg.com/lang/en/docs/install/#mac-stable), [MongoDB](https://docs.mongodb.com/v3.2/installation/) and [TypeScript](https://www.typescriptlang.org/)
+ [Node.js](https://nodejs.org/en/), [Yarn package manager](https://yarnpkg.com/), [MongoDB](https://docs.mongodb.com/v3.2/installation/) and [TypeScript](https://www.typescriptlang.org/)
 
 
 ## Built With
-[Nest.js]()
-[React.js]()
-[Auth0]() 
-[TypeScript]()
-[MongoDB]() 
+- [Nest.js](https://nestjs.com/)
+- [React.js](https://reactjs.org/)
+- [Auth0](https://auth0.com/) 
+- [TypeScript](https://www.typescriptlang.org/)
+- [MongoDB](https://www.mongodb.com/) 
