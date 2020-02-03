@@ -9,7 +9,6 @@ npm install -g typescript
 ```
 
 ## Backend
-### Change directory into the backend
 ```bash
 cd blog-backend
 npm install
@@ -25,7 +24,6 @@ sudo mongod
 ```
 
 ## Frontend
-### Change directory into the frontend
 ```bash
 cd blog-frontend
 npm install
