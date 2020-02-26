@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, useHistory } from "react-router-dom";
 import { useAuth0 } from "../../contexts/auth0-context";
+import createPost from "../../services/createPost";
 
 function Create(): JSX.Element {
   let history = useHistory();
@@ -15,6 +16,13 @@ function Create(): JSX.Element {
     [values, setValues] = useState<IValues>([]),
     [submitSuccess, setSubmitSuccess] = useState<boolean>(false),
     [loading, setLoading] = useState<boolean>(false);
+
+  const formData = {
+    title: values.title,
+    description: values.description,
+    body: values.body,
+    author
+  };
 
   // set the author name as retrieved using the
   // user object from the created Auth0Context.
@@ -33,44 +41,20 @@ function Create(): JSX.Element {
 
     setLoading(true);
 
-    const formData = {
-      title: values.title,
-      description: values.description,
-      body: values.body,
-      author
-    };
-    const submitSuccess: boolean = await submitform(formData);
+    const submitSuccess: boolean = await submitForm();
 
     setSubmitSuccess(submitSuccess);
     setValues({ ...values, formData });
     setLoading(false);
+    
     setTimeout(() => {
       history.push("/");
     }, 1500);
   };
 
-  const submitform = async (formData: {}) => {
-    try {
-      const accessToken = await getIdTokenClaims();
-
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/post`,
-        {
-          method: "post",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            authorization: `Bearer ${accessToken.__raw}`
-          }),
-          body: JSON.stringify(formData)
-        }
-      );
-
-      return response.ok;
-      
-    } catch (ex) {
-      return false;
-    }
+  const submitForm = async (): Promise<boolean> => {
+    const accessToken = await getIdTokenClaims();
+    return await createPost(formData, accessToken);
   };
 
   const setFormValues = (formValues: IValues) => {

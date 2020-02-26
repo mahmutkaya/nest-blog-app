@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useAuth0 } from "../../contexts/auth0-context";
+import getPost from '../../services/getPost'
+import editPost from "../../services/editPost";
+
+export interface IValues {
+  [key: string]: any;
+}
 
 function Edit(): JSX.Element {
   const { getIdTokenClaims } = useAuth0();
@@ -10,10 +16,6 @@ function Edit(): JSX.Element {
   // obtaine the postId from the URL using the useParams() React hook:
   let { postId } = useParams();
 
-  interface IValues {
-    [key: string]: any;
-  }
-
   // state variables:
   const [post, setPost] = useState(),
     [values, setValues] = useState<IValues>([]),
@@ -21,14 +23,7 @@ function Edit(): JSX.Element {
     [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/post/${postId}`
-      );
-      const json = await response.json();
-      setPost(json);
-    };
-    fetchData();
+    getPost(postId, setPost);
   }, [postId]);
 
   //@todo: make generic 'handle' methods for create and edit components
@@ -47,27 +42,11 @@ function Edit(): JSX.Element {
       history.push("/");
     }, 1500);
   };
-
+  
   const submitForm = async (): Promise<boolean> => {
-    try {
-      const accessToken = await getIdTokenClaims();
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/edit?postID=${postId}`,
-        {
-          method: "put",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            authorization: `Bearer ${accessToken.__raw}`
-          }),
-          body: JSON.stringify(values)
-        }
-      );
-      return response.ok;
-    } catch (ex) {
-      return false;
-    }
-  };
+    const accessToken = await getIdTokenClaims();
+    return await editPost(postId, accessToken, values)
+  }
 
   const setFormValues = (formValues: IValues) => {
     setValues({ ...values, ...formValues });
