@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth0 } from "../contexts/auth0-context";
 import styled from "styled-components";
-import {deletePost} from '../services/deletePost'
+import deletePost from "../services/deletePost";
+import getAllPosts from "../services/getAllPosts";
 
 const BlogArea = styled.section`
   padding: 70px 0 40px;
@@ -13,26 +14,23 @@ const BlogArea = styled.section`
 `;
 
 function Home(): JSX.Element {
-  let history = useHistory();
+  // let history = useHistory();
   const { isAuthenticated, getIdTokenClaims, user } = useAuth0();
   const [posts, setPosts] = useState();
 
-  const _deletePost = async (id: string) => {
+  const _deletePost = async (id: React.ReactNode) => {
     const accessToken = await getIdTokenClaims();
-    await deletePost(id,accessToken, posts)
-    history.push("/");
-  }
+    await deletePost(id, accessToken);
+
+    /** todo: do I need to use history.push('/') to go home page? */
+
+    //get new post list
+    getAllPosts(setPosts);
+  };
 
   // retrieve all the created posts from the database and update the state of the application with it.
   useEffect(() => {
-    const fetchPosts = async (): Promise<any> => {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/posts`
-      );
-      const json = await response.json();
-      setPosts(json);
-    };
-    fetchPosts();
+    getAllPosts(setPosts);
   }, []);
 
   return (
@@ -41,8 +39,15 @@ function Home(): JSX.Element {
         <div className="row">
           {posts &&
             posts.map(
-              (post: { title: React.ReactNode; _id: any; author: any }) => (
-                <div className="col-lg-4 col-md-6" key={post._id}>
+              (
+                post: {
+                  title: React.ReactNode;
+                  _id: React.ReactNode;
+                  author: React.ReactNode;
+                },
+                index: number
+              ) => (
+                <div className="col-lg-4 col-md-6" key={index}>
                   <div className="card h-100">
                     <div className="single-post post-style-1">
                       <div className="blog-image">

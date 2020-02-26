@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import getPost from '../../services/getPost'
 
 function Post() {
   let { postId } = useParams();
   const [post, setPost] = useState<any>({});
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/post/${postId}`
-      );
-      const json = await response.json();
-      setPost(json);
-    };
-    fetchData();
+    getPost(postId, setPost);
   }, [postId]);
 
   console.log("post", post);
