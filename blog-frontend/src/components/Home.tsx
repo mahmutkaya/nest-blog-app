@@ -12,6 +12,14 @@ const BlogArea = styled.section`
     padding: 40px 0 10px;
   }
 `;
+const PostTitle = styled.h1`
+  display: block;
+  width: 100%;
+  text-align: left;
+  &:first-child {
+    color: green;
+  }
+`;
 
 function Home(): JSX.Element {
   // let history = useHistory();
@@ -25,7 +33,7 @@ function Home(): JSX.Element {
     /** todo: do I need to use history.push('/') to go home page? */
 
     //get new post list
-    getAllPosts(setPosts);
+    await getAllPosts(setPosts);
   };
 
   // retrieve all the created posts from the database and update the state of the application with it.
@@ -34,8 +42,22 @@ function Home(): JSX.Element {
   }, []);
 
   return (
-    <BlogArea className="blog-area section">
-      <div className="container">
+    <BlogArea className="container-fluid">
+      <div className="row">
+        {posts &&
+          posts.map(
+            (
+              post: {
+                title: React.ReactNode;
+                _id: React.ReactNode;
+                author: React.ReactNode;
+                image: React.ReactNode;
+              },
+              index: number
+            ) => <PostTitle key={index}>{post.title}</PostTitle>
+          )}
+      </div>
+      {/* <div className="container">
         <div className="row">
           {posts &&
             posts.map(
@@ -105,7 +127,7 @@ function Home(): JSX.Element {
               )
             )}
         </div>
-      </div>
+      </div> */}
     </BlogArea>
   );
 }

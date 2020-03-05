@@ -21,6 +21,7 @@ function Create(): JSX.Element {
     title: values.title,
     description: values.description,
     body: values.body,
+    image: values.image,
     author
   };
 

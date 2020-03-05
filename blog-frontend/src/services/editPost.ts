@@ -1,9 +1,10 @@
+import serverURI from '../environments/serverURI';
 import { IValues } from "../components/post/Edit";
 
 const editPost = async (postId: string | undefined, accessToken: any, values: IValues): Promise<boolean> => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/blog/edit?postID=${postId}`,
+        `${serverURI}/blog/edit?postID=${postId}`,
         {
           method: "put",
           headers: new Headers({

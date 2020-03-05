@@ -6,6 +6,7 @@ export class CreatePostDTO {
     readonly title: string;
     readonly description: string;
     readonly body: string;
+    readonly image: Array<string>;
     readonly author: string;
     readonly datePosted: string;
 }

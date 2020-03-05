@@ -1,7 +1,9 @@
-const createPost = async (formData: { title?: any; description?: any; body?: any; author?: string; }, accessToken: { __raw: any; }): Promise<boolean> => {
+import serverURI from '../environments/serverURI'
+
+const createPost = async (formData: { title?: any; description?: any; body?: any; image?: string[]; author?: string; }, accessToken: { __raw: any; }): Promise<boolean> => {
     try {
         const response = await fetch(
-            `${process.env.REACT_APP_SERVER_BASE_URL}/blog/post`,
+            `${serverURI}/blog/post`,
             {
                 method: "post",
                 headers: new Headers({
