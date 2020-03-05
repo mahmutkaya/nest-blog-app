@@ -1,6 +1,8 @@
+import serverURI from '../environments/serverURI'
+
 const deletePost = async (id: React.ReactNode, accessToken: any): Promise<void> => {
   await fetch(
-    `${process.env.REACT_APP_SERVER_BASE_URL}/blog/delete?postID=${id}`,
+    `${serverURI}/blog/delete?postID=${id}`,
     {
       method: "delete",
       headers: new Headers({
