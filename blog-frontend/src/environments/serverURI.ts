@@ -1,4 +1,4 @@
-const prodURI = 'https://nest-blog-server.herokuapp.com/';
+const prodURI = 'https://nest-blog-server.herokuapp.com';
 
 const devURI = 'http://localhost:5200';
 
