@@ -18,6 +18,7 @@ export class BlogService {
     }
     async getPosts(): Promise<Post[]> {
         const posts = await this.postModel.find().exec();
+        console.log('posts',posts)
         return posts;
     }
 /*
