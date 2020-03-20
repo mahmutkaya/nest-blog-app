@@ -12,6 +12,7 @@ const BlogArea = styled.section`
     padding: 40px 0 10px;
   }
 `;
+const PostWrapper = styled.article``;
 const PostTitle = styled.h1`
   display: block;
   width: 100%;
@@ -43,21 +44,53 @@ function Home(): JSX.Element {
 
   return (
     <BlogArea className="container-fluid">
-      <div className="row">
-        {posts &&
-          posts.map(
-            (
-              post: {
-                title: React.ReactNode;
-                _id: React.ReactNode;
-                author: React.ReactNode;
-                image: React.ReactNode;
-              },
-              index: number
-            ) => <PostTitle key={index}>{post.title}</PostTitle>
-          )}
-      </div>
-      {/* <div className="container">
+      {/* <div className="row"> */}
+      {/* <PostWrapper> */}
+      {/* {posts &&
+        posts.map(
+          (
+            post: {
+              title: React.ReactNode;
+              _id: React.ReactNode;
+              author: React.ReactNode;
+              description: React.ReactNode;
+              image: any;
+            },
+            index: number
+          ) => (
+            <div key={index} className="card">
+              <div className="card-body">
+                <h5 className="card-title">{post.title}</h5>
+                <p className="card-text">{post.description}</p>
+                <Link
+                  to={`/post/${post._id}`}
+                  className="btn btn-sm btn-outline-secondary"
+                >
+                  View Post{" "}
+                </Link>
+                {isAuthenticated && user.name === post.author && (
+                  <>
+                    <Link
+                      to={`/edit/${post._id}`}
+                      className="btn btn-sm btn-outline-secondary"
+                    >
+                      Edit Post{" "}
+                    </Link>
+                    <button
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => _deletePost(post._id)}
+                    >
+                      Delete Post
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )
+        )} */}
+      {/* </PostWrapper> */}
+      {/* </div> */}
+<div className="container">
         <div className="row">
           {posts &&
             posts.map(
@@ -127,7 +160,7 @@ function Home(): JSX.Element {
               )
             )}
         </div>
-      </div> */}
+      </div>
     </BlogArea>
   );
 }

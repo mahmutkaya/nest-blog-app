@@ -10,6 +10,12 @@ function Create(): JSX.Element {
   interface IValues {
     [key: string]: any;
   }
+  interface IObj {
+    name: string;
+    label?: string;
+    type?: string;
+    defaultValue?: string;
+  }
 
   // state variables:
   const [author, setAuthor] = useState<string>(""),
@@ -21,7 +27,6 @@ function Create(): JSX.Element {
     title: values.title,
     description: values.description,
     body: values.body,
-    image: values.image,
     author
   };
 
@@ -47,7 +52,7 @@ function Create(): JSX.Element {
     setSubmitSuccess(submitSuccess);
     setValues({ ...values, formData });
     setLoading(false);
-    
+
     setTimeout(() => {
       history.push("/");
     }, 1500);
@@ -69,6 +74,21 @@ function Create(): JSX.Element {
     });
   };
 
+  const inputField = (obj: IObj) => (
+    <div className="form-group col-md-12">
+      <label htmlFor={obj.name}> {obj.label || obj.name}</label>
+      <input
+        type={obj.type || "text"}
+        id={obj.name}
+        onChange={e => handleInputChanges(e)}
+        name={obj.name}
+        defaultValue={obj.defaultValue}
+        className="form-control"
+        placeholder={`enter ${obj.name}`}
+      />
+    </div>
+  );
+
   return (
     <div>
       <div className={"col-md-12 form-wrapper"}>
@@ -87,51 +107,14 @@ function Create(): JSX.Element {
           id={"create-post-form"}
           onSubmit={handleFormSubmission}
           noValidate={true}
+          // encType="multipart/form-data"
         >
-          <div className="form-group col-md-12">
-            <label htmlFor="title"> Title </label>
-            <input
-              type="text"
-              id="title"
-              onChange={e => handleInputChanges(e)}
-              name="title"
-              className="form-control"
-              placeholder="Enter title"
-            />
-          </div>
-          <div className="form-group col-md-12">
-            <label htmlFor="description"> Description </label>
-            <input
-              type="text"
-              id="description"
-              onChange={e => handleInputChanges(e)}
-              name="description"
-              className="form-control"
-              placeholder="Enter Description"
-            />
-          </div>
-          <div className="form-group col-md-12">
-            <label htmlFor="body"> Write Content </label>
-            <input
-              type="text"
-              id="body"
-              onChange={e => handleInputChanges(e)}
-              name="body"
-              className="form-control"
-              placeholder="Enter content"
-            />
-          </div>
-          <div className="form-group col-md-12">
-            <label htmlFor="author"> Author </label>
-            <input
-              type="text"
-              id="author"
-              defaultValue={author}
-              onChange={e => handleInputChanges(e)}
-              name="author"
-              className="form-control"
-            />
-          </div>
+         {/* {inputField({ name: "click to upload img", type: "file" })} */}
+          {inputField({ name: "title" })}
+          {inputField({ name: "description" })}
+          {inputField({ label: "Write Content", name: "body" })}
+          {inputField({ name: "author", defaultValue: author })}
+
           <div className="form-group col-md-4 pull-right">
             <button className="btn btn-success" type="submit">
               Create Post

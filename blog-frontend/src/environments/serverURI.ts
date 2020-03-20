@@ -1,6 +1,6 @@
-const prodURI = 'https://nest-blog-server.herokuapp.com';
+const prodURI = process.env.REACT_APP_SERVER_BASE_URI;
 
-const devURI = 'http://localhost:5200';
+const devURI = process.env.REACT_APP_DEV_SERVER_URI;
 
 const serverURI = process.env.NODE_ENV === 'production' ? prodURI : devURI;
 

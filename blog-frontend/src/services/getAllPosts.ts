@@ -1,7 +1,7 @@
 import serverURI from '../environments/serverURI';
 
 const getAllPosts = async (setPosts: React.Dispatch<any>): Promise<void> => {
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV, serverURI)
+  console.log('mode', process.env.NODE_ENV)
 
   const response = await fetch(
     `${serverURI}/blog/posts`
@@ -11,7 +11,6 @@ const getAllPosts = async (setPosts: React.Dispatch<any>): Promise<void> => {
   await json.reverse()
   //set state with database post list
   setPosts(json);
-  console.log('jjj', json)
 };
 
 export default getAllPosts;
