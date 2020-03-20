@@ -4,12 +4,16 @@ import { BlogService } from './blog.service';
 import { BlogController } from './blog.controller';
 import { BlogSchema } from './schemas/blog.schema';
 import { AuthenticationMiddleware } from '../common/authentication.middleware';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     //MongooseModule.forFeature method to define which models should be registered in the module. 
     //Without this, injecting the PostModel within the BlogService using @injectModel() decorator wouldn’t work.
     MongooseModule.forFeature([{ name: 'Post', schema: BlogSchema }]),
+    MulterModule.register({
+      dest: './upload',
+    })
   ],
   providers: [BlogService],
   controllers: [BlogController]

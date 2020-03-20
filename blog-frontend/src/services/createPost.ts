@@ -1,6 +1,15 @@
 import serverURI from '../environments/serverURI'
 
-const createPost = async (formData: { title?: any; description?: any; body?: any; image?: string[]; author?: string; }, accessToken: { __raw: any; }): Promise<boolean> => {
+const createPost = async (
+    formData: {
+        title?: any;
+        description?: any;
+        body?: any;
+        image?: string[];
+        author?: string;
+    },
+    accessToken: { __raw: any; }
+): Promise<boolean> => {
     try {
         const response = await fetch(
             `${serverURI}/blog/post`,

@@ -9,16 +9,19 @@ import {
     Body,
     Put,
     Query,
-    Delete
+    Delete,
+    UseInterceptors,
+    UploadedFiles
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express'
 import { BlogService } from './blog.service';
 import { CreatePostDTO } from './dto/createPost.dto';
-import {ValidateObjectId} from './shared/pipes/validateObjectId.pipes'
+import { ValidateObjectId } from './shared/pipes/validateObjectId.pipes'
 
 @Controller('blog')
 export class BlogController {
     constructor(private blogService: BlogService) { }
-    
+
     // submit a post
     @Post('/post')
     async addPost(@Res() res, @Body() createPostDTO: CreatePostDTO) {
@@ -33,12 +36,10 @@ export class BlogController {
     @Get('post/:postID')
     async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
         const post = await this.blogService.getPost(postID);
-
-
+        
         if (!post) {
             throw new NotFoundException('Post does not exist!');
         }
-        console.log('ressss', res)
         console.log('post', post)
         return res.status(HttpStatus.OK).json(post)
     }
@@ -79,5 +80,20 @@ export class BlogController {
             message: 'Post has been deleted',
             post: deletedPost,
         })
+    }
+    // upload images
+    @Post('upload')
+    @UseInterceptors(FilesInterceptor('image[]'))
+    uploadFile(@Body() createPostDTO: CreatePostDTO, @UploadedFiles() images) {
+        console.log('filesss', images, createPostDTO);
+        return 'Image has been uploaded successfully';
+    }
+    // get images
+    @Get(':imgpath')
+    async seeUploadedFile(
+        @Param('imgpath') image,
+        @Res() res
+    ) {
+        return res.sendFile(image, { root: 'images' })
     }
 }
